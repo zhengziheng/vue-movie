@@ -1,26 +1,35 @@
 <template>
   <div id="app">
     <keep-alive>
-      <router-view></router-view>
+      <router-view @hasLoad="hasLoad"></router-view>
     </keep-alive>
     <tab></tab>
-    <loading></loading>
+    <loading v-if="!loadingFlag"></loading>
   </div>
 </template>
 
 <script>
+import Loading from "base/loading/loading";
+import Tab from "components/tab/tab";
 export default {
-  name: 'App'
+  name: 'App',
+  data(){
+    return{
+      loadingFlag:false
+    }
+  },
+  methods:{
+    hasLoad(){
+      this.loadingFlag = true
+    }
+  },
+  components:{
+    Tab,
+    Loading,
+  }
 }
 </script>
 
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+
 </style>
