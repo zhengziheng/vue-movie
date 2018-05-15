@@ -10,7 +10,7 @@
     </div>
     <div class="logo">
       <div class="logo-wrapper">
-        <img src="./douban-logo.png" alt="">
+        <img src="./douban-logo.png" alt="" width="48" height="48">
         <div class="logo-desc">
           <span class="title">豆瓣</span>
           <span class="desc">我们的精神角落</span>
@@ -38,7 +38,7 @@ props:{},
       const week = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六']
       let currentWeek = week[now.getDay()] //获取当天星期
       let year =now.getFullYear()//获取年份
-      let month =now.getMonth()//获取月份
+      let month =now.getMonth()+1//获取月份
       let day =now.getDate()//日
       return `${year}年${month}月${day}日,${currentWeek}`
     }
