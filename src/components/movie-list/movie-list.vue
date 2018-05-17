@@ -55,14 +55,113 @@ props:{
     default:true
   }
 },
-  components: {},
+  components: {
+    Star,
+    Loadmore
+  },
 
   computed: {},
 
 
-  methods: {}
+  methods: {
+    selectItem(){
+      this.$emit('select',movie)
+    },
+    dateEqual(index){
+      if(index===0){
+        return false
+      }
+      return this.movies[index].date===this.movies[index-1].date
+    },
+    recalculate(){
+      setTimeout(() => {
+        this.getMap()
+        this._calculateHeight()
+      }, 20);
+    },
+    getMap(){
+      let map={}
+      for (let i = 0; i < this.movies.length; i++) {
+        if(map[this.movies[i].date]){
+          map[this.movies[i].date].push(i)
+
+        }else{
+          map[this.movies[i].data]=[i]
+        }
+        this.indexMap = map
+      }
+    },
+    _calculateHeight(){// 计算每个区间的高度
+      this.listHeight=[]
+      const list = this.$refs.group
+      let height=0
+      let map = Object.values(this.indexMap)
+      this.listHeight.push(height)
+      map.forEach((item,index)=>{
+        item.forEach((item)=>{
+          height+=list[item].clientHeight
+        })
+        this.listHeight.push(height)
+      })
+      this.$emit('getHeight',this.listHeight)
+      this.$emit('getMap',Object.keys(this.indexMap))
+    },
+    replaceUrl(srcUrl) {
+        if (srcUrl !== undefined) { // 图片防盗链处理
+          return ('https://images.weserv.nl/?url=' + srcUrl.replace(/http\w{0,1}:\/\//, ''));
+        }
+  }
+  },
+  watch:{
+    movies(){
+      if(this.needDate){
+        setTimeout(() => {
+          this.getMap()
+          this._calculateHeight()
+        }, 20);
+      }
+    }
+  }
 }
 
 </script>
 <style lang='stylus' scoped>
+  @import "common/stylus/variable.styl"
+  @import "common/stylus/mixin.styl"
+  .movie-list
+    ul
+      .date
+        width 100%
+        background $color-background-d
+        padding-left 5px
+        height 30px
+        line-height 30px
+      .item
+        display flex
+        align-self center
+        box-sizing border-box
+        padding 15px 0
+        .info-img
+          flex 80px 0 0
+          margin-right 10px
+        .info.desc
+          height 120px
+          flex 1
+          display flex
+          flex-direction column
+          justify-content space-around
+          overflow hidden
+          .title
+            font-size $font-size-medium-x
+            color $color-text-f
+          .derector
+            font-size $font-size-small
+          .casts
+            font-size $font-size-small
+            no-wrap()
+          .hasWatched
+            color $color-text-f
+            font-size $font-size-samll
+
+
 </style>
