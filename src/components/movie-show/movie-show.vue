@@ -56,6 +56,8 @@
   import Scroll from 'base/scroll/scroll'
   import Loadmore from 'base/loadmore/loadmore'
   import {getMovie,getComingMovie} from '@/api/movie-show'
+  import { createMovieList } from '../../common/js/movieList';
+  import { mapMutations } from 'vuex';
   const SEARCH_MORE = 10
   const TITLE_HEIGHT=30
 export default {
@@ -94,7 +96,12 @@ created(){
   this.scrollMap=[]
 },
 props:{},
-  components: {},
+  components: {
+    Switches,
+      MovieList,
+      Scroll,
+      Loadmore
+  },
 
   computed: {
     fixedTitle(){
@@ -200,10 +207,84 @@ props:{},
 
   },
   watch:{
+    scrollY(newY,oldY){
+      if(!newY){
+        this.scrollY = oldY
+      }
+      if(this.listHeight.length===0||this.scrollMap.lenght===0){
+        return
+      }
+      if(newY>0){
+        this.scrollIndex=0
+        return
+      }
+      for (let i = 0; i < listHeight.length-1; i++) {
+        let height1 = this.listHeight[i]
+        let height2 = this.listHeight[i+1]
+        if(-newY>=height1 &&-newY<height2){
+          this.scrollIndex = i
+          this.diff=height2+newY
+          return 
+        }
+        this.scrollIndex = this.listHeight.length - 2
+      }
+    },
+    diff(newval){
+      let fixedTop = (newval>0&&newval<TITLE_HEIGHT)? newval - TITLE_HEIGHT : 0
+      if (this.fixedTop === fixedTop) {
+          return
+        }
+        this.fixedTop = fixedTop
+        this.$nextTick(() => {
+          this.$refs.fixed.style.transform = `translate3d(0, ${fixedTop}px, 0)`
+        })
+    }
     
   }
 }
 
 </script>
 <style lang='stylus' scoped>
+@import "../../common/stylus/variable.styl"
+  .movie-show
+    height 100%
+    .go-search  
+      height 50px
+      box-sizing border-box
+      padding 10px 10px 5px 60px
+      text-align center
+      .logo
+        position absolute
+        left 10px
+      .search-content
+        background-color $color-background-d
+        font-size $font-size-medium-x
+        border-radius 5px
+        span 
+          display inline-block
+          vertical-align middle
+    .list-wrapper
+      position absolute
+      top 97px
+      bottom 61px
+      width 100%
+      .list-scroll
+        position relative
+        height 100%
+        overflow hidden
+        .list-inner
+        padding 0 15px
+    .list-fixed
+      position absolute
+      top 97px
+      right 15px
+      left 15px
+      .fixed-title
+        width 100%
+        padding-left 5px
+        height 30px
+        line-height 30px
+        background-color $color-background-d
+
+
 </style>
