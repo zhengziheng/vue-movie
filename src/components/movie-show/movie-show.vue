@@ -39,10 +39,10 @@
           <movie-list :movies="comingMovies" :needDate="needDate" @getHeight="getHeight" @getMap="getMap" :hasMore="hasMoreComingMovies" @select="selectMovie" ref="list"></movie-list>
         </div>
       </scroll>
-      <loadMore 
+      <loadmore 
       :fullScreen="fullScreen" 
       v-show="currentIndex===1&&!comingMovies.length||currentIndex===0&&!hotMovies.length"
-      ></loadMore>
+      ></loadmore>
     </div>
     <div v-show="currentIndex===1" class="list-fixed" v-if="fixedTitle" ref="fixed">
       <h1 class="fixed-title">{{fixedTitle}}</h1>
@@ -67,18 +67,18 @@ name:'MovieShow',
   data () {
     return {
       currentIndex:0,
-      Switches:[
+      switches:[
         {name:'正在热映'},
         {name:'即将上映'},
       ],
-      pullup:pullup,
+      pullup:true,
       needDate:true,
-      fullSrceen:true,
+      fullScreen:true,
       liadingFlag:true,
       scrollY:-1,
       diff:-1,
       hotMovies:[],
-      comingMoives:[],
+      comingMovies:[],
       hasMoreHotMovies:true,
       hasMoreComingMovies:true,
       hotMovieIndex:0,
@@ -144,7 +144,7 @@ props:{},
         this.$refs.hotMovies.refresh()
       }, 20);
     },
-    Loadmore(){
+    loadMore(){
       if(!this.loadingFlag){
         return
       }
@@ -157,6 +157,7 @@ props:{},
         this.hotMoviesIndex +=SEARCH_MORE
         getMovie(this.hotMovieIndex,SEARCH_MORE).then(res=>{
           this.hotMovies = this.hotMovies.concat(createMovieList(res.subjects))
+          
           this._checkMore(res)
           this.loadingFlag = true
         })
@@ -169,7 +170,6 @@ props:{},
           getComingMovie(this.comingMovieIndex, SEARCH_MORE).then((res) => {
             this.comingMovies = this.comingMovies.concat(createMovieList(res.subjects));
             this._checkMore(res);
-            // console.log(this.comingMovies);
             this.loadingFlag = true;
           });
         }
@@ -187,20 +187,21 @@ props:{},
       getMovie(this.hotMovieIndex,SEARCH_MORE).then(res=>{
         this.$emit('hasLoad')
         this.hotMovies = createMovieList(res.subjects)
-        this._cheakMore(res)
+        console.log(this.hotMovies);
+        this._checkMore(res)
       })
     },
-    _checkMore(data){
-      const movies = data.subjects
-      if(!movies.length ||data.star+data.count >data.total){
-        if(this.currentIndex===0){
-          this.hasMoreHotMovies = false
-        }else{
-          this.hasMoreComingMovies = false
+    _checkMore(data) {
+        const movies = data.subjects;
+        if (!movies.length || data.start + data.count > data.total) {
+          if (this.currentIndex === 0) {
+            this.hasMoreHotMovies = false
+          } else {
+            this.hasMoreComingMovies = false
+          }
+          this.loadingFlag = true
         }
-        this.loadingFlag =true
-      }
-    },
+      },
     ...mapMutations({
         setMovie: 'SET_MOVIE'
       })
@@ -259,6 +260,7 @@ props:{},
       .search-content
         background-color $color-background-d
         font-size $font-size-medium-x
+        line-height: 35px
         border-radius 5px
         span 
           display inline-block
@@ -273,7 +275,7 @@ props:{},
         height 100%
         overflow hidden
         .list-inner
-        padding 0 15px
+          padding 0 15px
     .list-fixed
       position absolute
       top 97px

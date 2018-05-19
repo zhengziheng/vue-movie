@@ -1,4 +1,3 @@
-import { normalize } from "uri-js";
 
 // 创建电影类
 
@@ -47,10 +46,11 @@ function filterCasts(casts){
       ret +=item.name
     }
   })
+  return ret
 }
 
 function filterDirector(directors){
-  return directors.length? directors[0] :''
+  return directors.length? directors[0].name :''
 }
 
 function filterDate(date,pubdates){
@@ -68,4 +68,53 @@ function filterDate(date,pubdates){
   }
   return normalizeDate(date)
 
+}
+
+//获取电影上映的待定事件
+
+function findShowTime(pubdates,key){
+  //获取待定的月份或者年份
+  let month=''
+  let year = ''
+  pubdates.forEach(item => {
+    let index = item.indexOf(key)
+    if(index >-1){
+      if(!item.split('-')[1]){//不存在月份信息
+        year = item.split('-')[0].substr(0,4)
+      }else{
+        month = (item.split('-')[1].substr(0,2))
+        if(month.substr(0,1)==='0'){
+          //月份去0
+          month = month.substr(1,1)
+        }
+      }
+    }
+    
+  });
+  if(!month){
+    return `${year}年待定`
+  }
+  return `${month}月待定`
+}
+
+// 判断是否需要显示年份 上映年份大于本年
+
+function needYear(date){
+  return parseInt(new Date(date).getFullYear())>parseInt(new Date().getFullYear())
+}
+
+// 格式化日期
+
+function normalizeDate(date){
+  const week = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六']
+  let currentWeek = week[new Date(date).getDay()] //获取星期
+  let time = `${date.split('-')[1]}月${date.split('-')[2]}日`
+  if(time.substr(0,1)==='0'){
+    time = time.substr(1,1)
+  }
+  let ret = time+' '+currentWeek
+  if(needYear(date)){
+    return `${date.split('-')[0]}年${ret}`
+  }
+  return ret 
 }

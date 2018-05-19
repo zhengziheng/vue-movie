@@ -45,7 +45,7 @@ props:{},
 @import '~common/stylus/variable.styl'
 @import '~common/stylus/mixin.styl'
   .tab
-    position fixed
+    position fixed !important
     width 100%
     bottom 0
     border-top-1px($color-theme-f)

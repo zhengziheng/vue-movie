@@ -2,7 +2,7 @@
 <template>
   <div class="star" :class="starType">
     <span v-if="score ||needNullStar"
-    v-for="(item,index) in itemClsasses"
+    v-for="(item,index) in itemClasses"
     :key="index"
     class="star-item"
     :class="item"
@@ -30,7 +30,7 @@ name:'',
     };
   },
 
-props:{
+
   props:{
     size:{
       type:Number,
@@ -48,8 +48,8 @@ props:{
       type:Boolean,
       type:false,
     }
-  }
-},
+  },
+
   components: {},
 
   computed: {
@@ -88,8 +88,8 @@ props:{
 
 </script>
 <style lang='stylus' scoped>
-@import 'common/stylus/mixin.styl'
-@import 'common/stylus/variable.styl'
+@import '~common/stylus/mixin.styl'
+@import '~common/stylus/variable.styl'
 
 .star
   font-size 0

@@ -1,7 +1,7 @@
 <!--  -->
 <template>
   <div class="loadmore" :class="{'full':fullScreen}">
-    <div class="hasmore" v-if="hasmore">
+    <div class="hasmore" v-if="hasMore">
       <span></span>
       <span></span>
       <span></span>
@@ -43,7 +43,7 @@ props:{
 
 </script>
 <style lang='stylus' scoped>
-@import 'common/stylus/variable.styl'
+@import '~common/stylus/variable.styl'
 .loadmore
   width 150px
   height 15px

@@ -85,16 +85,13 @@ props:{
       }
 
       //是否支持上拉刷新
-      if(this.pullup){
-        this.scroll.on('scrollEnd',()=>{
-          if(this.scroll.y<=this.scroll.maxScrollY+50){
-            // 快滚动到底部刷新
-            this.$emit('scrollToEnd')//派发事件
-
-          }
-        
-        })
-      }
+      if (this.pullup) {
+          this.scroll.on('scrollEnd', () => {
+            if (this.scroll.y <= this.scroll.maxScrollY + 50) { // 快滚动到底部
+              this.$emit('scrollToEnd'); // 派发事件说明已经滚动到底部
+            }
+          })
+        }
         //触发滚动之前派发事件，用于优化用户体验
       if(this.beforeScroll){
         this.scroll.on('beforeScrollStart',()=>{
