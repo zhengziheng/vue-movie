@@ -41,7 +41,7 @@ props:{
 
 
   methods: {
-    switchItme(index){
+    switchItem(index){
       this.$emit('switch',index)
     }
   }
