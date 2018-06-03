@@ -36,6 +36,23 @@ export function createMovieList(movieList){
   return ret
 }
 
+
+export function createRankList(rankList){
+  let ret=[]
+  rankList.forEach(item=>{
+    item= item.subject? item.subject:item
+    ret.push(new Movie({
+      id: item.id,
+      title: item.title,
+      director: filterDirector(item.directors),
+      casts: filterCasts(item.casts),
+      rating: item.rating.average,
+      image: item.images.large
+    }))
+  })
+  return ret
+}
+
 function filterCasts(casts){
   let ret=''
   casts.forEach((item,index)=>{

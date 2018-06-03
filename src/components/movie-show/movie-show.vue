@@ -51,13 +51,13 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import Switches from 'base/switches/switches';
-  import MovieList from 'components/movie-list/movie-list';
-  import Scroll from 'base/scroll/scroll';
-  import Loadmore from 'base/loadmore/loadmore';
-  import { getMovie, getComingMovie } from '../../api/movie-show';
-  import { createMovieList } from '../../common/js/movieList';
-  import { mapMutations } from 'vuex';
+  import Switches from 'base/switches/switches'
+  import MovieList from 'components/movie-list/movie-list'
+  import Scroll from 'base/scroll/scroll'
+  import Loadmore from 'base/loadmore/loadmore'
+  import { getMovie, getComingMovie } from '../../api/movie-show'
+  import { createMovieList } from '../../common/js/movieList'
+  import { mapMutations } from 'vuex'
   const SEARCH_MORE = 10; // 每次请求数据的长度
   const TITLE_HEIGHT = 30; // 日期栏高度
   export default {
