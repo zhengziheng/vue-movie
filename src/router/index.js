@@ -5,6 +5,10 @@ const MovieShow = resolve => require(['components/movie-show/movie-show'], resol
 const Rank = resolve => require(['components/rank/rank'], resolve)
 const RankDetail = resolve => require(['components/rank-detail/rank-detail'], resolve)
 const MovieDetail = resolve => require(['components/movie-detail/movie-detail'], resolve)
+const ReviewDetail = resolve => require(['components/review-detail/review-detail'], resolve)
+const AllDiscussion = resolve => require(['components/all-discussion/all-discussion'], resolve)
+
+
 Vue.use(Router)
 
 export default new Router({
@@ -30,7 +34,16 @@ export default new Router({
     {
       path:'/movie/:movieId',
       component:MovieDetail,
-
+      children:[
+        {
+          path:'review/:reviewId',
+          component:ReviewDetail
+        },
+        {
+          path:':discussType',
+          component:AllDiscussion,
+        }
+      ]
     }
 
   ]
