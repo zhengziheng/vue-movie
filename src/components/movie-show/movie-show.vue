@@ -106,6 +106,7 @@
       },
       selectMovie(movie) { // 转入电影详情
         this.setMovie(movie);
+        console.log(movie)
         this.$router.push({
           path: `/movie/${movie.id}`
         });

@@ -108,8 +108,8 @@ props:{
 <style lang='stylus' scoped>
 @import '~common/stylus/variable.styl'
   .movie-comment
-  padding 20px
-  background $color-background
+    padding 20px
+    background $color-background
   .type-title
     font-size $font-size-medium
     margin-bottom 15px

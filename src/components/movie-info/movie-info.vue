@@ -114,7 +114,7 @@ props:{
         if(date[i].indexOf('电影节')===-1){
           pubdate = date[i]
         }
-        if(data[i].indexOf('中国大陆')>-1){
+        if(date[i].indexOf('中国大陆')>-1){
           pubdate=date[i]
           break;
         }
@@ -124,28 +124,29 @@ props:{
       }
       return pubdate
     },
-    allCasts(){
-      let removeIndex = []
-      this.movieDetail.directors.forEach((item,index) => {
-        item.isDirector = true
-        if(item.avatars ===null){
-          removeIndex.push(index)
-        }
-        for(let i = removeIndex.length; i>0;i--){
-          this.movieDetail.directors.splice(removeIndex[i-1],1)
-        }
-        removeIndex=[]
-        this.movieDetail.casts.forEach((item,index)=>{
-          if(item.avatars===null){
-            removeIndex.push(index)
+    allCasts() { // 获取导演和演员的分组
+        let removeIndex = [];
+        this.movieDetail.directors.forEach((item, index) => {
+          item.isDirector = true;
+          if (item.avatars === null) { // 有的导演不存在照片
+            removeIndex.push(index);
           }
-        })
-        for(let i =removeIndex.length;i>0;i--){
-          this.movieDetail.casts.splice(removeIndex[i-1],1)
+        });
+        for (let i = removeIndex.length; i > 0; i--) { // 移除信息不完全的导演
+          this.movieDetail.directors.splice(removeIndex[i - 1], 1);
         }
-        return this.movieDetail.directors.concat(this.movieDetail.casts)
-      })
-    },
+        removeIndex = []; // 重置移除清单
+        this.movieDetail.casts.forEach((item, index) => {
+          // console.log(index);
+          if (item.avatars === null) { // 有的演员不存在照片
+            removeIndex.push(index);
+          }
+        });
+        for (let i = removeIndex.length; i > 0; i--) { // 移除信息不完全的演员
+          this.movieDetail.casts.splice(removeIndex[i - 1], 1);
+        }
+        return this.movieDetail.directors.concat(this.movieDetail.casts);
+      },
     ...mapGetters([
       'movie',
       'watchedMovies',
@@ -179,7 +180,7 @@ props:{
         this.watchedText = '看过'
       }
     },
-    seveWantedMovie(){
+    saveWantedMovie(){
       this.markWantedMovie(this.movie)
       const index = this.wantedMovies.findIndex(item=>{
         return item.id===this.movie.id
@@ -201,7 +202,17 @@ props:{
       }
       return false
     },
-    normalozeScore(){
+    isWatched(id){
+      const index = this.watchedMovies.findIndex(item=>{
+        return item.id===id
+      })
+      if(index>-1){
+        this.hasWatched =true
+        return true
+      }
+      return false
+    },
+    normalizeScore(){
       let len = this.movieDetail.rating.average.toString().length
       if(len<2){
         return `${this.movieDetail.rating.average}.0`

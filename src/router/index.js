@@ -7,7 +7,9 @@ const RankDetail = resolve => require(['components/rank-detail/rank-detail'], re
 const MovieDetail = resolve => require(['components/movie-detail/movie-detail'], resolve)
 const ReviewDetail = resolve => require(['components/review-detail/review-detail'], resolve)
 const AllDiscussion = resolve => require(['components/all-discussion/all-discussion'], resolve)
-
+const CelebrityDetail = resolve => require(['components/celebrity-detail/celebrity-detail'], resolve);
+const CelebrityWorks = resolve => require(['components/celebrity-works/celebrity-works'], resolve);
+const UserCenter = resolve => require(['components/user-center/user-center'], resolve);
 
 Vue.use(Router)
 
@@ -54,6 +56,10 @@ export default new Router({
           component:CelebrityWorks
         }
       ]
+    },
+    {
+      path:'/user',
+      component:UserCenter
     }
 
   ]
