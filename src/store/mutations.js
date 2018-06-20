@@ -21,6 +21,9 @@ const mutations = {
   },
   [types.SET_CELEBRITY_ID](state, id) {
     state.currentCelebrityId = id;
+  },
+  [types.SET_COLLECT_CELEBRITY](state,celebrity){
+    state.collectedCelebrities = celebrity
   }
 }
 

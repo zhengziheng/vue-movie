@@ -7,6 +7,7 @@ const state = {
   currentCelebrityId: 0,
   currentReviewId: 0,
   currentDiscussionType: '',
+  collectedCelebrities: loadCelebrity(),
 }
 
 

@@ -44,6 +44,16 @@ export default new Router({
           component:AllDiscussion,
         }
       ]
+    },
+    {
+      path:'/celebrity/:celebrityId',
+      component:CelebrityDetail,
+      children:[
+        {
+          path:'works',
+          component:CelebrityWorks
+        }
+      ]
     }
 
   ]

@@ -5,9 +5,11 @@ const USER_ID = 'buptsky'
 const WATCHED_KEY = '__watched__' // 已经看过的电影
 const WANTED_KEY = '__wanted__' // 想看的电影
 const COMMENT_KEY = '__comment__'
+const CELEBRITY_KEY = '__celebrity__'
 const WATCHED_MAX_LENGTH = 300
 const WANTED_MAX_LENGTH = 300
 const COMMENT_MAX_LENGTH = 300
+const CELEBRITY_MAX_LENGTH = 300
 
 
 
@@ -84,3 +86,30 @@ export function loadComment(){
   return loadFromLocal(USER_ID,COMMENT_KEY,[])
 }
 
+
+
+//收藏的影人
+
+export function saveCelebrity(celebrity){
+  const maxLen = CELEBRITY_MAX_LENGTH
+
+  let celebrities = loadFromLocal(USER_ID,CELEBRITY_KEY,[])
+  const index = celebrities.findIndex((item)=>{
+    return item.id===celebrity.id
+  })
+  if(index===-1){
+    celebrities.push(celebrity)
+    if(maxLen&&celebrities.length>maxLen){
+      celebrities.shift()
+    }
+  }else{
+    celebrities.splice(index,1)
+  }
+  saveToLocal(USER_ID,CELEBRITY_KEY,celebrities)
+  return celebrities
+
+}
+
+export function loadCelebrity(){
+  return loadFromLocal(USER_ID,CELEBRITY_KEY,[])
+}
